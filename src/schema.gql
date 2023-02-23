@@ -1,0 +1,138 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type ListItem {
+  id: ID!
+  quantity: Float!
+  completed: Boolean!
+  list: List!
+  item: Item!
+}
+
+type List {
+  id: ID!
+  name: String!
+  user: User!
+  Items(offset: Int = 0, limit: Int = 10, search: String): [ListItem!]!
+  TotalItem: Int!
+}
+
+type User {
+  id: ID!
+  fullName: String!
+  email: String!
+  roles: [String!]!
+  isActive: Boolean!
+  lastUpdateBy: User
+  itemCount: Int!
+  itemList(offset: Int = 0, limit: Int = 10, search: String): [Item!]!
+  List(offset: Int = 0, limit: Int = 10, search: String): [List!]!
+  ListCount: Int!
+}
+
+type Item {
+  id: ID!
+  name: String!
+  quantityUnits: String!
+  user: User!
+  listItem: [ListItem!]!
+}
+
+type AuthResponse {
+  token: String!
+  user: User!
+}
+
+type Query {
+  items(offset: Int = 0, limit: Int = 10, search: String): [Item!]!
+  item(id: ID!): Item!
+  users(roles: [validRoles!] = [], offset: Int = 0, limit: Int = 10, search: String): [User!]!
+  user(id: ID!): User!
+  Lists(offset: Int = 0, limit: Int = 10, search: String): [List!]!
+  List(id: ID!): List!
+  listItem(id: String!): ListItem!
+  revalidate: AuthResponse!
+}
+
+"""Esto seria una descripcion"""
+enum validRoles {
+  admin
+  user
+  superUser
+}
+
+type Mutation {
+  createItem(createItemInput: CreateItemInput!): Item!
+  updateItem(updateItemInput: UpdateItemInput!): Item!
+  removeItem(id: ID!): Item!
+  blockUser(id: ID!): User!
+  updateUser(updateUser: UpdateUserInput!): User!
+  createList(createListInput: CreateListInput!): List!
+  updateList(updateListInput: UpdateListInput!): List!
+  removeList(id: ID!): List!
+  createListItem(createListItemInput: CreateListItemInput!): ListItem!
+  updateListItem(updateListItemInput: UpdateListItemInput!): ListItem!
+  signup(signupInput: SignupInput!): AuthResponse!
+  login(loginInput: LoginInput!): AuthResponse!
+
+  """Ejecucion de construccion de DB"""
+  executeSeed: Boolean!
+}
+
+input CreateItemInput {
+  name: String!
+  quantityUnits: String
+}
+
+input UpdateItemInput {
+  name: String
+  quantityUnits: String
+  id: ID!
+}
+
+input UpdateUserInput {
+  email: String
+  fullName: String
+  password: String
+  id: ID!
+  roles: [validRoles!]
+  isActive: Boolean
+}
+
+input CreateListInput {
+  """Example field (placeholder)"""
+  name: String!
+}
+
+input UpdateListInput {
+  """Example field (placeholder)"""
+  name: String
+  id: ID!
+}
+
+input CreateListItemInput {
+  quantity: Float
+  completed: Boolean = false
+  listId: ID!
+  itemId: ID!
+}
+
+input UpdateListItemInput {
+  quantity: Float
+  completed: Boolean = false
+  listId: ID
+  itemId: ID
+  id: ID!
+}
+
+input SignupInput {
+  email: String!
+  fullName: String!
+  password: String!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
