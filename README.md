@@ -27,7 +27,7 @@ npm run start:dev
 6. Visitar el sitio
 
 ```
-localhost:3000/graphql
+localhost:3002/graphql
 ```
 
 7. ejecutar la mutacion "executeSeed"
